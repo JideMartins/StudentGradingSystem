@@ -1,6 +1,7 @@
 package org.student.GradingSystem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,12 +22,12 @@ public class StudentGradingSystem {
 	public StudentGradingSystem() {
 		this.students = new ArrayList<>();
 		this.courses = new ArrayList<>();
+		initializeCourses();
 	}
-
-	public StudentGradingSystem(List<Student> students, List<Course> courses) {
-		this.students = students;
-		this.courses = courses;
-	}
+//    public StudentGradingSystem(List<Student> students, List<Course> courses) {
+//        this.students = students;
+//        this.courses = courses;
+//    }
 
 	/**
 	 * adds a student to the system
@@ -102,6 +103,55 @@ public class StudentGradingSystem {
 		for (Student student : students) {
 			System.out.println(student);
 		}
+	}
+
+	// Initialize hard-coded courses
+	private void initializeCourses() {
+		courses.add(new Course("Mathematics", "Ms. Lola Rey", "MATH101"));
+		courses.add(new Course("Physics", "Dr. Jide", "PHYS101"));
+		courses.add(new Course("Chemistry", "Prof. Ayo", "CHEM101"));
+		courses.add(new Course("Biology", "Ms. Ayomide", "BIOL101"));
+		courses.add(new Course("History", "Dr. Hussein", "HIST101"));
+		courses.add(new Course("English", "Dr. Shakespeare", "ENG101"));
+		courses.add(new Course("Computer Science", "Dr. Bell", "CS101"));
+		courses.add(new Course("Web Development", "Mrs. Smith", "WEB101"));
+		courses.add(new Course("Art", "Mr. Picasso", "ART101"));
+		courses.add(new Course("Physical Education", "Mr. Niel Armstrong", "PE101"));
+	}
+
+	// Method to get the list of courses (as immutable)
+	public List<Course> getCourses() {
+		return Collections.unmodifiableList(courses);
+	}
+
+	// Get all students
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	// Search student by ID for assigning and viewing grades
+	public Student searchStudentsById(String studentId) {
+		for (Student student : students) {
+			if (student.getStudentId().equals(studentId)) {
+				return student;
+			}
+		}
+		return null; // return null when there is no student found.
+	}
+
+	/**
+	 * Search courses with course code
+	 * 
+	 * @param courseCode eg "MATH101"
+	 * @return Course object if found or null if not found
+	 */
+	public Course searchCourseByCode(String courseCode) {
+		for (Course course : courses) {
+			if (course.getCourseCode().equals(courseCode)) {
+				return course;
+			}
+		}
+		return null;
 	}
 
 }
