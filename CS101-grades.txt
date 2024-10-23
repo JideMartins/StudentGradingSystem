@@ -1,0 +1,17 @@
+Report for Course: Introduction to Programming
+Course Code: CS101
+===============================================
+Student Name: BPTN-06-001
+Student ID: Alice
+Test Score: 15
+Exam Score: 40.0
+Project Score: 15
+Total Score: 70
+-----------------------------------------------
+Student Name: BPTN-06-002
+Student ID: Bob
+Test Score: 20
+Exam Score: 46.0
+Project Score: 10
+Total Score: 76
+-----------------------------------------------

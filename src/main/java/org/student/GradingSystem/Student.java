@@ -6,60 +6,40 @@ import java.util.List;
 public class Student {
 	// declare fields
 	private String studentName;
-	private String studentId;
-	private List<Grade> studentGrades; // object of class Grade
-	private List<Course> enrolledCourses;
+	private String studentID;
+	private Grading grading; // object of class Grade
 
 	// initialize with constructor
-	public Student(String studentName, String studentId) {
+	public Student(String studentName, String studentID) {
 		this.studentName = studentName;
-		this.studentId = studentId;
-		this.studentGrades = new ArrayList<>();
-		this.enrolledCourses = new ArrayList<>();
+		this.studentID = studentID;
+		this.grading = new Grading();
 	}
 
 	public String getStudentName() {
 		return studentName;
 	}
 
-	public String getStudentId() {
-		return studentId;
+	public String getStudentID() {
+		return studentID;
 	}
 
-	public List<Grade> getStudentGrades() {
-		return studentGrades;
+	public Grading getGrading() {
+		return grading;
 	}
 
-	public void addGrade(Grade grade) {
-		studentGrades.add(grade);
-	}
+	/*
+	 * public void addGrade(Grade grade) { studentGrades.add(grade); }
+	 */
 
-	public double calculateAverage() {
-		double total = 0; // default value
-		for (Grade grade : studentGrades) {
-			total += grade.getGradeScore();
-		}
-		return total / studentGrades.size();
-	}
-
-	// Method to enroll the student in a course
-	public void enrollCourse(Course course) {
-		if (!enrolledCourses.contains(course)) {
-			enrolledCourses.add(course);
-			System.out.println(studentName + " has been enrolled in " + course.getCourseName());
-		} else {
-			System.out.println(studentName + " is already enrolled in " + course.getCourseName());
-		}
-	}
-
-	// Method to get the student's enrolled courses
-	public List<Course> getEnrolledCourses() {
-		return enrolledCourses;
-	}
-
-	@Override
-	public String toString() {
-		return "Student{" + "Name='" + studentName + '\'' + ", ID='" + studentId + '\'' + ", Grade=" + studentGrades
-				+ '}';
-	}
+	// Display student's grade report
+    public void displayReport() {
+        System.out.println("Student Name: " + studentName);
+        System.out.println("Student ID: " + studentID);
+        System.out.println("Test Score: " + grading.getTestScore());
+        System.out.println("Exam Score: " + grading.getExamScore());
+        System.out.println("Project Score: " + grading.getProjectScore());
+        System.out.println("Total Score: " + grading.getTotalScore());
+    }
 }
+

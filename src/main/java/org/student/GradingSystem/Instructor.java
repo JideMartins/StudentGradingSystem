@@ -3,46 +3,34 @@ package org.student.GradingSystem;
 import java.util.List;
 
 public class Instructor {
-	private String instructorName;
-	private List<Course> instructorCourses; // Courses instructor teaches
+	private String instructorID;
+	private String name;
+	private List<Course> courses; // Courses instructor teaches
 
-	/**
-	 * Constructor
-	 *
-	 * @param instructorName
-	 * @param instructorCourses
-	 */
-	public Instructor(String instructorName, List<Course> instructorCourses) {
-		this.instructorName = instructorName;
-		this.instructorCourses = instructorCourses;
+	// Constructor
+	public Instructor(String instructorID, String name, List<Course> courses) {
+		this.instructorID = instructorID;
+		this.name = name;
+		this.courses = courses;
 	}
 
-	public String getInstructorName() {
-		return instructorName;
+	public String getInstructorID() {
+		return instructorID;
 	}
 
-	public List<Course> getInstructorCourses() {
-		return instructorCourses;
+	public String getName() {
+		return name;
 	}
 
-	public void addStudentToCourse(StudentGradingSystem system, String studentId, Course course, double gradeScore) {
-		system.assignGrade(studentId, course, gradeScore);
+	public List<Course> getCourses() {
+		return courses;
 	}
 
-	public void viewStudents(StudentGradingSystem system, String courseCode) {
-		Course course = system.searchCourseByCode(courseCode);
-
-		if (course != null) {
-			System.out.println("Student in " + course.getCourseName() + ":");
-			for (Student student : system.getStudents()) {
-				for (Grade grade : student.getStudentGrades()) {
-					if (grade.getCourse().equals(course)) {
-						System.out.println(student.getStudentName() + " — Grade: " + grade.getGradeScore());
-					}
-				}
-			}
-		} else {
-			System.out.println("Course not found!");
+	// Display courses
+	public void displayCourses() {
+		System.out.println("Courses handled by " + this.name + ":");
+		for (Course course : courses) {
+			System.out.println(course.getCourseCode() + " - " + course.getCourseName());
 		}
 	}
 
