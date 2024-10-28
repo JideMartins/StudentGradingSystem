@@ -1,45 +1,31 @@
 package org.student.GradingSystem;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * The Student class represents a student in the student grading system.
+ * It contains basic information about the student, such as their ID and name.
+ */
 public class Student {
-	// declare fields
-	private String studentName;
-	private String studentID;
-	private Grading grading; // object of class Grade
+    private String studentID;
+    private String studentName;
 
-	// initialize with constructor
-	public Student(String studentName, String studentID) {
-		this.studentName = studentName;
-		this.studentID = studentID;
-		this.grading = new Grading();
-	}
+    /**
+     * Constructor to initialize a Student object.
+     *
+     * @param studentID The unique ID of the student.
+     * @param studentName The name of the student.
+     */
 
-	public String getStudentName() {
-		return studentName;
-	}
+    public Student(String studentID, String studentName) {
+        this.studentID = studentID;
+        this.studentName = studentName;
+    }
 
-	public String getStudentID() {
-		return studentID;
-	}
+    // Getters
+    public String getStudentID() {
+        return studentID;
+    }
 
-	public Grading getGrading() {
-		return grading;
-	}
-
-	/*
-	 * public void addGrade(Grade grade) { studentGrades.add(grade); }
-	 */
-
-	// Display student's grade report
-    public void displayReport() {
-        System.out.println("Student Name: " + studentName);
-        System.out.println("Student ID: " + studentID);
-        System.out.println("Test Score: " + grading.getTestScore());
-        System.out.println("Exam Score: " + grading.getExamScore());
-        System.out.println("Project Score: " + grading.getProjectScore());
-        System.out.println("Total Score: " + grading.getTotalScore());
+    public String getStudentName() {
+        return studentName;
     }
 }
-

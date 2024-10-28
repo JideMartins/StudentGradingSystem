@@ -1,20 +1,31 @@
 package org.student.GradingSystem;
 
-
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.List;
+
+
+/**
+ * The CourseReportScreen class creates a user interface for viewing and exporting course reports.
+ * It displays student reports in a table format and provides options for exporting the report.
+ */
 
 public class CourseReportScreen {
     private VBox view;
     private StudentGradingSystemData data = StudentGradingSystemData.getInstance();
 
-    public CourseReportScreen() {
+    /**
+     * Constructor to initialize the CourseReportScreen.
+     *
+     * @param primaryStage The primary stage of the JavaFX application.
+     */
+    public CourseReportScreen(Stage primaryStage) {
         view = new VBox(10);
 
         Label courseLabel = new Label("Select Course:");
@@ -22,8 +33,6 @@ public class CourseReportScreen {
         courseDropdown.getItems().addAll("CS101 - Introduction to Programming", "CS102 - Data Structures", "MATH101 - Calculus I");
 
         TableView<StudentReport> table = new TableView<>();
-        table.setEditable(false);
-
         TableColumn<StudentReport, String> idColumn = new TableColumn<>("Student ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("studentID"));
 
@@ -44,36 +53,31 @@ public class CourseReportScreen {
 
         table.getColumns().addAll(idColumn, nameColumn, testColumn, projectColumn, examColumn, totalColumn);
 
+        // Refresh report when a course is selected
         courseDropdown.setOnAction(event -> {
             String selectedCourse = courseDropdown.getValue();
-            List<StudentReport> reportData = data.getReportsForCourse(selectedCourse);
-            table.getItems().clear();
-            table.getItems().addAll(reportData);
+            if (selectedCourse != null) {
+                List<StudentReport> reportData = data.getReportsForCourse(selectedCourse);
+                table.getItems().clear();
+                table.getItems().addAll(reportData); // Load updated report data
+            }
         });
 
         Button exportButton = new Button("Export Report");
         exportButton.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showSaveDialog(view.getScene().getWindow());
+            File file = fileChooser.showSaveDialog(primaryStage);
             if (file != null) {
-                try (PrintWriter writer = new PrintWriter(file)) {
-                    writer.println("Student ID,Student Name,Test Score,Project Score,Exam Score,Total Score");
-                    for (StudentReport report : table.getItems()) {
-                        writer.println(report.getStudentID() + "," + report.getStudentName() + ","
-                                + report.getTestScore() + "," + report.getProjectScore() + ","
-                                + report.getExamScore() + "," + report.getTotalScore());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                FileHandler.exportReportToFile(table.getItems(), file);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Report exported to " + file.getPath());
+                alert.showAndWait();
             }
         });
 
-        view.getChildren().addAll(courseLabel, courseDropdown, table, exportButton);
-    }
+        Button backButton = new Button("Back to Main Menu");
+        backButton.setOnAction(event -> new MainScreen(primaryStage, "Instructor ID")); // Replace with actual ID if needed
 
-    public VBox getView() {
-        return view;
+        view.getChildren().addAll(courseLabel, courseDropdown, table, exportButton, backButton);
+        primaryStage.setScene(new Scene(view, 600, 400));
     }
 }
-

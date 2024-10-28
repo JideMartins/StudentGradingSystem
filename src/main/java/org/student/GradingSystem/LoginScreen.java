@@ -1,42 +1,67 @@
 package org.student.GradingSystem;
 
 
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
+/**
+ * The LoginScreen class creates a user interface for instructor login.
+ * It allows instructors to enter their ID and password to authenticate themselves.
+ * Logic:
+ * ======================================
+ * Creates labels and text fields for the instructor ID and password.
+ * Creates a login button and sets an event handler to authenticate the instructor using the AuthManager.
+ * If authentication is successful, it displays the main application screen.
+ * If authentication fails, it shows an error alert.
+ * Adds all components to the view layout and sets the scene for the primary stage.
+ * Shows the primary stage.
+ */
 
 public class LoginScreen {
     private VBox view;
-    private StudentGradingSystemApp mainApp;
 
-    public LoginScreen(StudentGradingSystemApp app) {
-        this.mainApp = app;
+    /**
+     * Constructor to initialize the LoginScreen.
+     *
+     * @param primaryStage The primary stage of the JavaFX application.
+     */
+    public LoginScreen(Stage primaryStage) {
         view = new VBox(10);
 
         Label idLabel = new Label("Instructor ID:");
         TextField idField = new TextField();
-        Label nameLabel = new Label("Name:");
-        TextField nameField = new TextField();
+
+        Label passwordLabel = new Label("Password:");
+        PasswordField passwordField = new PasswordField();
+
         Button loginButton = new Button("Login");
 
-        Label loginStatusLabel = new Label();
         loginButton.setOnAction(event -> {
-            // Hardcoded login validation
-            if ("IN-06-001".equals(idField.getText()) && "James Madisson".equals(nameField.getText())) {
-                loginStatusLabel.setText("Login successful. Welcome, James!");
-                mainApp.enableTabsAfterLogin();  // Enable the other tabs after successful login
-            } else if ("IN-06-002".equals(idField.getText()) && "Sara Connor".equals(nameField.getText())) {
-                loginStatusLabel.setText("Login successful. Welcome, Sara!");
-                mainApp.enableTabsAfterLogin();  // Enable the other tabs after successful login
+            String instructorID = idField.getText();
+            String password = passwordField.getText();
+
+            // Authenticate the instructor using AuthManager
+            if (AuthManager.authenticate(instructorID, password)) {
+                // Successful login
+                System.out.println("Login successful!");
+
+                // Instantiate the main application screen after successful login
+                new MainScreen(primaryStage, instructorID);
             } else {
-                loginStatusLabel.setText("Invalid ID or name. Please try again.");
+                // Failed login
+                System.out.println("Authentication failed. Please try again.");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid ID or password.");
+                alert.showAndWait();
             }
         });
 
-        view.getChildren().addAll(idLabel, idField, nameLabel, nameField, loginButton, loginStatusLabel);
-    }
-
-    public VBox getView() {
-        return view;
+        view.getChildren().addAll(idLabel, idField, passwordLabel, passwordField, loginButton);
+        primaryStage.setScene(new Scene(view, 300, 200));
+        primaryStage.show();
     }
 }
+
 
